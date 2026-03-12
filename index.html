@@ -4,6 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>CRMod7 - Quake 1 Competition Server</title>
+  <link rel="icon" type="image/svg+xml" href="favicon.svg">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;600;700&display=swap" rel="stylesheet">
@@ -176,7 +177,7 @@
             <svg viewBox="0 0 48 48" fill="none"><path d="M12 36V16l12-8 12 8v20" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M24 8v28" stroke="currentColor" stroke-width="2" stroke-dasharray="3 3"/></svg>
           </div>
           <div class="mode-content">
-            <h3>Capture the Flag</h3>
+            <h3>Threewave Capture the Flag</h3>
             <span class="mode-tag">Public / Team / Practice / Captimes</span>
             <p>Full-featured CTF with grappling hook support, capture time records, team scoring, and integration with Google Sheets for persistent leaderboards.</p>
           </div>
@@ -264,6 +265,14 @@
           </div>
           <h4>Match Management</h4>
           <p>Full match lifecycle: countdown, pause/unpause, overtime, sudden death, ghost save/restore, and auto-abort on inactivity.</p>
+        </div>
+
+        <div class="feature-card">
+          <div class="feature-icon">
+            <svg viewBox="0 0 32 32" fill="none"><path d="M16 5c-4.8 0-8 4.1-8 8.5 0 5.5 5.3 9.3 8 12.5 2.7-3.2 8-7 8-12.5C24 9.1 20.8 5 16 5z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><path d="M12.5 14.5h7M16 11v7" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+          </div>
+          <h4>Ghost Recovery</h4>
+          <p>Disconnect protection with ghost codes and restore flow, so players can rejoin an active match without losing their game state or collapsing the roster.</p>
         </div>
 
         <div class="feature-card">
@@ -562,32 +571,36 @@ ssg| ng|sng| gl| rl| lg|shl|nls|rox|cls|     name
       </div>
 
       <div class="play-grid">
-        <div class="server-card">
+        <div class="server-card" data-server-address="la.quakeone.com" data-server-port="26000">
           <div class="server-status"></div>
           <div class="server-info">
             <h4>la.quakeone.com</h4>
             <span class="server-region">Los Angeles</span>
+            <span class="server-state">Checking status</span>
           </div>
         </div>
-        <div class="server-card">
+        <div class="server-card" data-server-address="denver.quakeone.com" data-server-port="26000">
           <div class="server-status"></div>
           <div class="server-info">
             <h4>denver.quakeone.com</h4>
             <span class="server-region">Denver</span>
+            <span class="server-state">Checking status</span>
           </div>
         </div>
-        <div class="server-card">
+        <div class="server-card" data-server-address="dallas.quakeone.com" data-server-port="26000">
           <div class="server-status"></div>
           <div class="server-info">
             <h4>dallas.quakeone.com</h4>
             <span class="server-region">Dallas</span>
+            <span class="server-state">Checking status</span>
           </div>
         </div>
-        <div class="server-card">
+        <div class="server-card" data-server-address="ohio.quakeone.com" data-server-port="26003">
           <div class="server-status"></div>
           <div class="server-info">
             <h4>ohio.quakeone.com:26003</h4>
             <span class="server-region">Ohio</span>
+            <span class="server-state">Checking status</span>
           </div>
         </div>
       </div>
@@ -601,11 +614,11 @@ ssg| ng|sng| gl| rl| lg|shl|nls|rox|cls|     name
           </span>
           <svg class="play-link-arrow" viewBox="0 0 16 16" fill="none"><path d="M6 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
         </a>
-        <a href="https://qssm.quakeone.com/captimes/" class="play-link" target="_blank" rel="noopener">
+        <a href="captimes/" class="play-link">
           <svg viewBox="0 0 24 24" fill="none"><path d="M12 8v4l3 3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="1.5"/></svg>
           <span>
             <strong>CTF Capture Times</strong>
-            <em>qssm.quakeone.com/captimes &mdash; live leaderboard from all servers</em>
+            <em>captimes/ &mdash; live leaderboard from all servers</em>
           </span>
           <svg class="play-link-arrow" viewBox="0 0 16 16" fill="none"><path d="M6 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
         </a>
@@ -1693,15 +1706,83 @@ unspoken                  // Player name
       <div class="legacy-content">
         <span class="section-tag">Heritage</span>
         <h2>From ClanRing to CRMod7</h2>
-        <p>CRMod started as <strong>ClanRing CRMod++</strong> by J.P. Grossman in 1999 &mdash; a NetQuake competition server that defined how organized Quake was played. CRMod7 carries that legacy forward with modern integrations, new game modes, and decades of refinement from the competitive community. The full source is <a href="https://github.com/quakeone/CRMod7" target="_blank" rel="noopener" class="feature-link">open source on GitHub</a>.</p>
+        <p>CRMod7 is not just a straight CRMod successor. It pulls from two ClanRing lineages: <strong>CRMod++</strong> for match structure, admin flow, and competitive server tooling, and <strong>CRCTF</strong> for the ThreeWave-derived Capture the Flag branch that shaped its teamplay core. The result is a merged competitive stack carried forward with modern integrations, new modes, and open-source maintenance on <a href="https://github.com/quakeone/CRMod7" target="_blank" rel="noopener" class="feature-link">GitHub</a>.</p>
         <div class="legacy-timeline">
           <div class="timeline-item">
-            <span class="timeline-year">1999</span>
-            <span class="timeline-text">CRMod++ v5.1 released by Mephistopheles</span>
+            <span class="timeline-year">1996</span>
+            <span class="timeline-text">Quake released</span>
+          </div>
+          <div class="timeline-item">
+            <span class="timeline-year">Oct 1996</span>
+            <span class="timeline-text">ThreeWave CTF establishes the baseline Capture the Flag lineage that later CRCTF servers build on</span>
+          </div>
+          <div class="timeline-item">
+            <span class="timeline-year">Nov 27, 1997</span>
+            <span class="timeline-text">CRCTF 2.6 released with Expansion and All-Star map support plus a broad round of fixes</span>
+          </div>
+          <div class="timeline-item">
+            <span class="timeline-year">Jan 21, 1998</span>
+            <span class="timeline-text">CRCTF 2.8D framed ClanRing CTF around both public skirmish play and clan match mode</span>
+          </div>
+          <div class="timeline-item">
+            <span class="timeline-year">Mar 17, 1999</span>
+            <span class="timeline-text">CRMod 5.0 released after the Paul Baker-era CRMod 3.x/4.0 line was pushed forward by J.P. Grossman into the 4.1 and 5.x generation</span>
+          </div>
+          <div class="timeline-item">
+            <span class="timeline-year">Dec 10, 1999</span>
+            <span class="timeline-text">CRMod++ 5.1 released by Mephistopheles with improved console logging and DeQuake support</span>
+          </div>
+          <div class="timeline-item">
+            <span class="timeline-year">Feb 11, 2000</span>
+            <span class="timeline-text">CRMod++ 6.0 released with native ProQuake support and the first qccx-era feature wave</span>
+          </div>
+          <div class="timeline-item">
+            <span class="timeline-year">May 10, 2000</span>
+            <span class="timeline-text">CRMod++ 6.1 shipped as a fast stability update to fix a server-crash bug and match pause issues</span>
+          </div>
+          <div class="timeline-item">
+            <span class="timeline-year">Apr 22, 2001</span>
+            <span class="timeline-text">CRMod v6.2 posted with per-level config files and expanded match workflow updates</span>
+          </div>
+          <div class="timeline-item">
+            <span class="timeline-year">May 26, 2002</span>
+            <span class="timeline-text">CRMod++ v6.3 available with vote-admin support and AFK detection</span>
+          </div>
+          <div class="timeline-item">
+            <span class="timeline-year">2002</span>
+            <span class="timeline-text">r00k used the Elohim and CRMod 5.x-era codebase to build CRCTF forward in parallel, adding ThreeWave CTF while tracking the competitive ClanRing feature set</span>
+          </div>
+          <div class="timeline-item">
+            <span class="timeline-year">Apr 6, 2003</span>
+            <span class="timeline-text">CRMod++ v6.4 released with QuakeTag improvements and bug-fix cleanup</span>
+          </div>
+          <div class="timeline-item">
+            <span class="timeline-year">Apr 2006</span>
+            <span class="timeline-text">CRCTF 3.0 rewrite line was active in deployment, marking a major modernization pass for match CTF</span>
           </div>
           <div class="timeline-item">
             <span class="timeline-year">2000s</span>
-            <span class="timeline-text">Community adoption across NetQuake leagues</span>
+            <span class="timeline-text">Community adoption across NetQuake leagues and long-running public server use</span>
+          </div>
+          <div class="timeline-item">
+            <span class="timeline-year">Apr 26, 2013</span>
+            <span class="timeline-text">CRMod++ v6.5 released with ratings work that continued through the 2013 maintenance updates</span>
+          </div>
+          <div class="timeline-item">
+            <span class="timeline-year">May 10, 2013</span>
+            <span class="timeline-text">CRCTF 3.5 beta represented continuing community maintenance on the CTF branch</span>
+          </div>
+          <div class="timeline-item">
+            <span class="timeline-year">Mar 12, 2017</span>
+            <span class="timeline-text">Classic-era maintenance release with FFA ranking fixes and final cleanup</span>
+          </div>
+          <div class="timeline-item">
+            <span class="timeline-year">2017</span>
+            <span class="timeline-text">J.P. Grossman published the CRMod source on GitHub, r00k started development on CRMod7, and the project could restart from the cleaner 5.1 line without the old ProQuake and qccx lock-in for engines like FTE and DarkPlaces</span>
+          </div>
+          <div class="timeline-item">
+            <span class="timeline-year">Feb 2022</span>
+            <span class="timeline-text">bucksh0t added Arena modes to CRMod7, expanding the modern ruleset beyond the original ClanRing branches</span>
           </div>
           <div class="timeline-item">
             <span class="timeline-year">Now</span>
@@ -1722,7 +1803,7 @@ unspoken                  // Player name
         <div class="footer-links">
           <a href="https://github.com/quakeone/CRMod7" target="_blank" rel="noopener">GitHub</a>
           <a href="https://servers.quakeone.com/" target="_blank" rel="noopener">Server Browser</a>
-          <a href="https://qssm.quakeone.com/captimes/" target="_blank" rel="noopener">Capture Times</a>
+          <a href="captimes/">Capture Times</a>
           <a href="https://docs.google.com/spreadsheets/d/1ClswtB2X8vMd34b-0QNiE8b1l7IDoanAHgC2gs-zLxE/edit?gid=1461642282#gid=1461642282" target="_blank" rel="noopener">Captimes Sheet</a>
         </div>
         <p class="footer-text">Quake 1 Competition Server</p>

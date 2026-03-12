@@ -43,6 +43,113 @@ const revealHashTarget = () => {
 window.addEventListener('hashchange', revealHashTarget);
 revealHashTarget();
 
+// Live server status indicators
+const serverCards = document.querySelectorAll('.server-card[data-server-address][data-server-port]');
+const serverStatusUrl = 'https://servers.quakeone.com/api/servers/status';
+const serverStatusLabels = {
+  0: 'Live',
+  1: 'Not responding',
+  2: 'Server not found',
+  3: 'Query error'
+};
+
+const setServerCardState = (card, stateClass, label) => {
+  const light = card.querySelector('.server-status');
+  const statusText = card.querySelector('.server-state');
+
+  if (!light || !statusText) {
+    return;
+  }
+
+  light.classList.remove('status-live', 'status-down', 'status-error');
+  statusText.classList.remove('state-live', 'state-down');
+
+  if (stateClass) {
+    light.classList.add(stateClass);
+  }
+
+  if (stateClass === 'status-live') {
+    statusText.classList.add('state-live');
+  } else if (stateClass === 'status-down') {
+    statusText.classList.add('state-down');
+  }
+
+  statusText.textContent = label;
+  light.setAttribute('aria-label', label);
+  card.setAttribute('data-server-state', label.toLowerCase().replace(/\s+/g, '-'));
+};
+
+const updateServerStatus = async () => {
+  if (!serverCards.length) {
+    return;
+  }
+
+  let timeoutId;
+
+  try {
+    const controller = new AbortController();
+    timeoutId = window.setTimeout(() => controller.abort(), 5000);
+    const response = await fetch(serverStatusUrl, {
+      cache: 'no-store',
+      mode: 'cors',
+      signal: controller.signal
+    });
+
+    if (!response.ok) {
+      throw new Error(`Status feed returned ${response.status}`);
+    }
+
+    const servers = await response.json();
+
+    if (!Array.isArray(servers)) {
+      throw new Error('Status feed returned an unexpected payload.');
+    }
+
+    const serverMap = new Map(
+      servers.map((server) => [
+        `${String(server.address).toLowerCase()}:${String(server.port)}`,
+        server
+      ])
+    );
+
+    serverCards.forEach((card) => {
+      const key = `${card.dataset.serverAddress.toLowerCase()}:${card.dataset.serverPort}`;
+      const match = serverMap.get(key);
+
+      if (!match) {
+        setServerCardState(card, 'status-error', 'Status unavailable');
+        return;
+      }
+
+      const currentStatus = Number(match.currentStatus);
+      const label = serverStatusLabels[currentStatus] || 'Status unavailable';
+
+      if (currentStatus === 0) {
+        setServerCardState(card, 'status-live', label);
+      } else {
+        setServerCardState(card, 'status-down', label);
+      }
+    });
+  } catch (error) {
+    serverCards.forEach((card) => {
+      setServerCardState(card, 'status-error', 'Feed unavailable');
+    });
+    console.warn('Unable to load QuakeOne server status feed.', error);
+  } finally {
+    window.clearTimeout(timeoutId);
+  }
+};
+
+if (serverCards.length) {
+  updateServerStatus();
+
+  window.setInterval(() => {
+    if (document.visibilityState === 'visible') {
+      updateServerStatus();
+    }
+  }, 15000);
+}
+
 // Stats console tabs
 const statsTabs = document.querySelectorAll('.stats-tab');
 const statsPanels = document.querySelectorAll('.stats-panel');
